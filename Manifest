@@ -4,5 +4,8 @@ NOTICE
 README
 Rakefile
 TODO
-lib/thumbs.rb
-lib/thumbs/version.rb
+lib/thumbo.rb
+lib/thumbo/proxy.rb
+lib/thumbo/version.rb
+test/ruby.png
+test/test_thumbo.rb
