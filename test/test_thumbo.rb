@@ -3,10 +3,10 @@ require 'rubygems'
 require 'minitest/unit'
 MiniTest::Unit.autorun
 
-require 'thumbs'
+require 'thumbo'
 
 class RubyLogo
-  include Thumbs
+  include Thumbo
   thumbnails.merge! :large => 800, :medium => 500,
                     :small => 240, :thumb => 110
 
@@ -58,7 +58,7 @@ class RubyLogo
   def path; 'tmp'; end
 end
 
-class TestThumbs < MiniTest::Unit::TestCase
+class TestThumbo < MiniTest::Unit::TestCase
   Dims00 = [[ 24, 24], [ 48, 48], [ 75, 75],
             [109,110], [200,200], [239,240],
             [499,500], [799,800], [995,996]]

@@ -7,7 +7,7 @@ rescue LoadError
   load 'tasks/setup.rb'   # this line should already be there
 end
 
-PROJ.name = 'thumbs'
+PROJ.name = 'thumbo'
 # supress warnings, there's too many warnings in dm-core
 # PROJ.ruby_opts.delete '-w'
 

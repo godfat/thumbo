@@ -3,7 +3,7 @@ require 'RMagick'
 require 'open-uri'
 require 'timeout'
 
-module Thumbs
+module Thumbo
   class Proxy
     attr_reader :label
     def initialize owner, label

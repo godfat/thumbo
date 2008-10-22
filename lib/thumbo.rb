@@ -1,9 +1,9 @@
 
-require 'thumbs/proxy'
+require 'thumbo/proxy'
 
-module Thumbs
+module Thumbo
   def self.included model
-    model.__send__ :extend, Thumbs::ClassMethod
+    model.__send__ :extend, Thumbo::ClassMethod
   end
 
   module ClassMethod
@@ -52,7 +52,7 @@ module Thumbs
   def init_thumbnails
     self.class.const_get('ThumbnailsNameTable').inject({}){ |thumbnails, name|
       label = name.first
-      thumbnails[label] = Thumbs::Proxy.new self, label
+      thumbnails[label] = Thumbo::Proxy.new self, label
       thumbnails
     }
   end

@@ -1,10 +1,10 @@
-= thumbs 0.5
+= thumbo 0.5
 by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
   godfat (XD) godfat.org
 
 == LINKS:
 
-* github-project[http://github.com/godfat/thumbs]
+* github-project[http://github.com/godfat/thumbo]
 * rubyforge-project[http://rubyforge.org/projects/ludy]
 
 == DESCRIPTION:
@@ -19,7 +19,7 @@ by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
 
 == INSTALL:
 
-* sudo gem install thumbs
+* sudo gem install thumbo
 
 == LICENSE:
 
