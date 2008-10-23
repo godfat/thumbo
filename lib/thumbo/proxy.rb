@@ -38,6 +38,10 @@ module Thumbo
       self
     end
 
+    def to_blob
+      self.image.to_blob
+    end
+
     # convert format to website displable image format
     def convert_format_for_website
       image.format = 'PNG' unless ['GIF', 'JPEG'].include?(image.format)

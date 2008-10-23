@@ -66,6 +66,8 @@ class TestThumbo < MiniTest::Unit::TestCase
 
   def test_first
     logo = RubyLogo.new File.open('test/ruby.png').read
+    assert_kind_of String, logo.thumbnails[:original].to_blob
+
     logo.create_thumbnails
     assert_dimension Dims00, logo.log.sort
     assert_dimension Dims00, read_dimension
