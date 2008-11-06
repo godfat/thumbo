@@ -3,3 +3,5 @@
 * this project skeleton is built through Mr Bones 2.1.0:
     gem install bones
     http://codeforpeople.rubyforge.org/bones/
+
+* test cases were written in mini-test.

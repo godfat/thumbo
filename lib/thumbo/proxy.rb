@@ -145,7 +145,7 @@ module Thumbo
     end
 
     def uri_full
-      "#{owner.host_with_protocol}/#{owner.path}/#{fileuri}"
+      "#{owner.thumbnail_uri_prefix}/#{fileuri}"
     end
 
     private
