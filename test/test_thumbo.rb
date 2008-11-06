@@ -53,7 +53,9 @@ class RubyLogo
   def checksum; 'abcdefg'; end
 
   # you must define this for HasManyThumbnails to produce full url
-  def thumbnail_uri_prefix; './tmp'; end
+  def thumbnail_uri_prefix thumbnail
+    './tmp'
+  end
 end
 
 class TestThumbo < MiniTest::Unit::TestCase
