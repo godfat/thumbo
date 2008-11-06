@@ -122,7 +122,6 @@ module Thumbo
     end
 
     def filename; owner.thumbnail_filename self; end
-    def fileuri; owner.thumbnail_fileuri self; end
     def fileext
       if @image
         case ext = image.first.format
@@ -144,10 +143,9 @@ module Thumbo
       end
     end
 
-    def uri_prefix; owner.thumbnail_uri_prefix self; end
-    def uri_full
-      "#{uri_prefix}/#{fileuri}"
-    end
+    def uri_prefix; owner.thumbnail_uri_prefix(self); end
+    def uri_file;   owner.thumbnail_uri_file(  self); end
+    def uri_full;  "#{uri_prefix}/#{uri_file}";       end
 
     private
     attr_reader :owner

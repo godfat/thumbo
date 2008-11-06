@@ -27,7 +27,7 @@ module Thumbo
   end
 
   # same as thumbnail.fileuri, for fetching
-  def thumbnail_fileuri thumbnail
+  def thumbnail_uri_file thumbnail
     thumbnail_filename thumbnail
   end
   def thumbnail_mime_type
