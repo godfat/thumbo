@@ -55,23 +55,17 @@ module Thumbo
       # can't use map since it have different meaning to collect here
       self.image = owner.thumbnails[:original].image.collect{ |layer|
         # i hate column and row!! nerver remember which is width...
-        width, height = layer.columns, layer.rows
-        long, short = width >= height ? [width, height] : [height, width]
+        new_dimension = Thumbo.calculate_dimension(limit, layer.columns, layer.rows)
 
-        if long <= limit # no need to scale
+        # no need to scale
+        if new_dimension == dimension(layer)
           layer
-        elsif width == height # direct scale
-          layer.scale limit, limit
-        else # detect which is longer
 
-          # assume width is longer
-          new_width, new_height = limit, short * (limit.to_f / long)
+        # scale to new_dimension
+        else
+          layer.scale(*new_dimension)
 
-          # swap if height is longer
-          new_width, new_height = new_height, new_width if long == height
-
-          layer.scale new_width, new_height
-         end
+        end
       }
 
       self
@@ -113,8 +107,8 @@ module Thumbo
     end
 
     # attribute
-    def dimension
-      [image.first.columns, image.first.rows]
+    def dimension img = image.first
+      [img.columns, img.rows]
     end
 
     def mime_type

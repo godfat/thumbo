@@ -6,6 +6,27 @@ module Thumbo
     model.__send__ :extend, Thumbo::ClassMethod
   end
 
+  def self.calculate_dimension limit, width, height
+    long, short = width >= height ? [width, height] : [height, width]
+
+    if long <= limit # stay on
+      [width, height]
+
+    elsif width == height # square
+      [limit, limit]
+
+    else # detect which is longer
+
+      # assume width is longer
+      new_width, new_height = limit, short * (limit.to_f / long)
+
+      # swap if height is longer
+      new_width, new_height = new_height, new_width if long == height
+
+      [new_width, new_height]
+    end
+  end
+
   module ClassMethod
     def thumbnails
       # could we avoid class variable?
@@ -30,9 +51,11 @@ module Thumbo
   def thumbnail_uri_file thumbnail
     thumbnail_filename thumbnail
   end
+
   def thumbnail_mime_type
     thumbnails[:original].mime_type
   end
+
   def create_thumbnails after_scale = lambda{}
     # scale common thumbnails
     self.class.thumbnails.each_key{ |label|
