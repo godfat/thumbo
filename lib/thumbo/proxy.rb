@@ -11,8 +11,8 @@ module Thumbo
     end
 
     # image processing
-    def image
-      @image || (self.image = fetch)
+    def image time_limit = 5
+      @image || (self.image = fetch(time_limit))
     end
 
     def image_without_timeout
@@ -150,6 +150,9 @@ module Thumbo
     rescue Magick::ImageMagickError
       nil # nil this time, so it'll refetch next time when you call image
     end
-    def fetch; timeout(5){ fetch_without_timeout }; end
+
+    def fetch time_limit = 5
+      timeout(time_limit){ fetch_without_timeout }
+    end
   end
 end

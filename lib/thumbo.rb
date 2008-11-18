@@ -30,11 +30,12 @@ module Thumbo
   module ClassMethod
     def thumbnails
       # could we avoid class variable?
-      @@thumbs_thumbnails ||= {}
+      @@thumbo_thumbnails ||= {}
     end
+
     def thumbnails_square
       # could we avoid class variable?
-      @@thumbs_thumbnails_square ||= {}
+      @@thumbo_thumbnails_square ||= {}
     end
   end
 
