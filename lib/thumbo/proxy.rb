@@ -11,12 +11,12 @@ module Thumbo
     end
 
     # image processing
-    def image time_limit = 5
-      @image || (self.image = fetch(time_limit))
+    def image
+      @image || (self.image = fetch)
     end
 
-    def image_without_timeout
-      @image || (self.image = fetch_without_timeout)
+    def image_with_timeout time_limit = 5
+      @image || (self.image = fetch_with_timeout(time_limit))
     end
 
     def image= new_image
@@ -145,14 +145,14 @@ module Thumbo
     attr_reader :owner
 
     # fetch image from storage to memory
-    def fetch_without_timeout
+    def fetch
       Magick::ImageList.new.from_blob open(uri_full).read
     rescue Magick::ImageMagickError
       nil # nil this time, so it'll refetch next time when you call image
     end
 
-    def fetch time_limit = 5
-      timeout(time_limit){ fetch_without_timeout }
+    def fetch_with_timeout time_limit = 5
+      timeout(time_limit){ fetch }
     end
   end
 end
