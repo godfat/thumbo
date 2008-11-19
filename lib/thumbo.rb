@@ -58,14 +58,11 @@ module Thumbo
   end
 
   def create_thumbnails after_scale = lambda{}
-    # scale common thumbnails
-    self.class.thumbnails.each_key{ |label|
+    # scale thumbnails
+    self.class.thumbnails.merge(self.class.thumbnails_square).each_key{ |label|
       after_scale[ thumbnails[label].create ]
     }
-    # scale square thumbnails
-    self.class.thumbnails_square.each_key{ |label|
-      after_scale[ thumbnails[label].create_square ]
-    }
+
     # the last one don't scale at all, but call hook too
     after_scale[ thumbnails[:original] ]
 

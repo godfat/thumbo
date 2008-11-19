@@ -50,37 +50,16 @@ module Thumbo
     # create thumbnails in the image list (Magick::ImageList)
     def create
       return if label == :original
+      release
       limit = owner.class.thumbnails[label]
 
-      # can't use map since it have different meaning to collect here
-      self.image = owner.thumbnails[:original].image.collect{ |layer|
-        # i hate column and row!! nerver remember which is width...
-        new_dimension = Thumbo.calculate_dimension(limit, layer.columns, layer.rows)
+      if limit
+        create_common(limit)
 
-        # no need to scale
-        if new_dimension == dimension(layer)
-          layer
-
-        # scale to new_dimension
-        else
-          layer.scale(*new_dimension)
-
-        end
-      }
-
-      self
-    end
-
-    # e.g.,
-    # thumbnails[:square].create_square
-    def create_square
-      return if label == :original
-      release
-      limit = owner.class.thumbnails_square[label]
-
-      self.image = owner.thumbnails[:original].image.collect{ |layer|
-        layer.crop_resized(limit, limit).enhance
-      }
+      else
+        limit = owner.class.thumbnails_square[label]
+        create_square(limit)
+      end
 
       self
     end
@@ -141,13 +120,37 @@ module Thumbo
     def uri_file;   owner.thumbnail_uri_file(  self); end
     def uri_full;  "#{uri_prefix}/#{uri_file}";       end
 
-    private
+    protected
     attr_reader :owner
-
     def fetch_blob
       open(uri_full).read
     end
 
+    def create_common limit
+      # can't use map since it have different meaning to collect here
+      self.image = owner.thumbnails[:original].image.collect{ |layer|
+        # i hate column and row!! nerver remember which is width...
+        new_dimension = Thumbo.calculate_dimension(limit, layer.columns, layer.rows)
+
+        # no need to scale
+        if new_dimension == dimension(layer)
+          layer
+
+        # scale to new_dimension
+        else
+          layer.scale(*new_dimension)
+
+        end
+      }
+    end
+
+    def create_square limit
+      self.image = owner.thumbnails[:original].image.collect{ |layer|
+        layer.crop_resized(limit, limit).enhance
+      }
+    end
+
+    private
     # fetch image from storage to memory
     def read_image
       Magick::ImageList.new.from_blob fetch_blob
