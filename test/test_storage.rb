@@ -15,13 +15,13 @@ class Photo
     {:square => 50}
   end
 
-  def self.thumbo_names
+  def self.thumbo_labels
     {:original => 'o', :common => 'c', :square => 's'}
   end
 
   def thumbo_filename thumbo
     "#{self.object_id}_" +
-    "#{self.class.thumbo_names[thumbo.label]}.#{thumbo.fileext}"
+    "#{self.class.thumbo_labels[thumbo.label]}.#{thumbo.fileext}"
   end
 
   def thumbo_uri thumbo

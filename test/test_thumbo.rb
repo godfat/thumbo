@@ -16,7 +16,7 @@ class RubyLogo
       :square_medium => 48, :square_small => 24   }
   end
 
-  def self.thumbo_names
+  def self.thumbo_labels
     { :original => 'o', :raw => 'z',
       :large => 'l', :medium => 'm', :small => 's',
       :thumb => 't', :square => 'sq', :square_large => 'lsq',
@@ -45,7 +45,7 @@ class RubyLogo
   # same as thumbnail.filename
   def thumbo_filename thumbo
     "#{self.class}_#{checksum}_" +
-    "#{self.class.thumbo_names[thumbo.label]}.#{thumbo.fileext}"
+    "#{self.class.thumbo_labels[thumbo.label]}.#{thumbo.fileext}"
   end
 
   def thumbo_default_fileext

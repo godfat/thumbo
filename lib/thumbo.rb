@@ -43,7 +43,7 @@ module Thumbo
       {}
     end
 
-    def thumbo_names
+    def thumbo_labels
       {}
     end
   end
