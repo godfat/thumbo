@@ -15,13 +15,8 @@ class Photo
     {:square => 50}
   end
 
-  def self.thumbo_labels
-    {:original => 'o', :common => 'c', :square => 's'}
-  end
-
   def thumbo_filename thumbo
-    "#{self.object_id}_" +
-    "#{self.class.thumbo_labels[thumbo.label]}.#{thumbo.fileext}"
+    "#{self.object_id}_#{thumbo.label}.#{thumbo.fileext}"
   end
 
   def thumbo_uri thumbo
@@ -37,7 +32,7 @@ class StorageTest < MiniTest::Unit::TestCase
     t = p.thumbos[:original]
     t.from_blob(File.open('test/ruby.png').read)
 
-    assert_equal( "http://img.godfat.org/photos/#{p.object_id}_zzz_o.png",
+    assert_equal( "http://img.godfat.org/photos/#{p.object_id}_zzz_original.png",
                   p.thumbos[:original].uri )
   end
 end

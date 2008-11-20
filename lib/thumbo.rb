@@ -80,8 +80,15 @@ module Thumbo
 
   private
   def init_thumbos
-    self.class.thumbo_names.inject({}){ |result, name|
-      label = name.first
+    # just to make sure original is setup.
+    {:original => true}.merge(
+      self.class.thumbo_common.merge(
+        self.class.thumbo_square.merge(
+          self.class.thumbo_labels
+        )
+      )
+    ).inject({}){ |result, label_value|
+      label = label_value.first
       result[label] = Thumbo::Proxy.new(self, label)
       result
     }
