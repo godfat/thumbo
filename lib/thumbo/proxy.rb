@@ -158,11 +158,9 @@ module Thumbo
 
     private
     # fetch image from storage to memory
+    # raises Magick::ImageMagickError
     def read_image
       Magick::ImageList.new.from_blob(storage.read(filename))
-
-    rescue Magick::ImageMagickError
-      nil # nil this time, so it'll refetch next time when you call image
     end
 
     def read_image_with_timeout time_limit = 5

@@ -13,6 +13,7 @@ module Thumbo
       @timeout_time = opts[:timeout_time] || 2
     end
 
+    # raises MogileFS::Backend::UnknownKeyError
     def read filename
       client.get_file_data(filename)
     end
@@ -25,6 +26,7 @@ module Thumbo
       client.delete(filename)
     end
 
+    # raises MogileFS::Backend::UnknownKeyError
     def file_paths filename
       client.get_paths(filename)
     end

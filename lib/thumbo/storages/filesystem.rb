@@ -11,6 +11,7 @@ module Thumbo
       @prefix_size = opts[:prefix_size] || 1
     end
 
+    # raises Errno::ENOENT
     def read filename
       File.read(calculate_path(filename))
     end
@@ -26,6 +27,7 @@ module Thumbo
       File.delete(target) if File.exist?(target)
     end
 
+    # raises Errno::ENOENT
     def file_paths filename
       target = calculate_path(filename)
       File.exist?(target) ? [target] : []
