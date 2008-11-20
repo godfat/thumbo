@@ -1,7 +1,5 @@
 
 require 'RMagick'
-require 'open-uri'
-require 'timeout'
 
 module Thumbo
   class Proxy
@@ -34,7 +32,7 @@ module Thumbo
     # e.g.,
     # thumbnails[:original].from_blob uploaded_file.read
     def from_blob blob, &block
-      self.image = Magick::ImageList.new.from_blob blob, &block
+      self.image = Magick::ImageList.new.from_blob(blob, &block)
       self
     end
 
@@ -51,25 +49,22 @@ module Thumbo
     def create
       return if label == :original
       release
-      limit = owner.class.thumbnails[label]
+      limit = owner.class.thumbo_common[label]
 
       if limit
         create_common(limit)
 
       else
-        limit = owner.class.thumbnails_square[label]
+        limit = owner.class.thumbo_square[label]
         create_square(limit)
+
       end
 
       self
     end
 
-    def write filename = nil
-      if filename
-        image.write filename
-      else
-        image.write self.uri_full
-      end
+    def write
+      storage.write(self.filename, to_blob)
     end
 
     # delegate all
@@ -78,10 +73,13 @@ module Thumbo
 
       if image.__respond_to__?(msg) # operate ImageList, a dirty way because of RMagick...
          [image.__send__(msg, *args, &block)]
+
       elsif image.first.respond_to?(msg) # operate each Image in ImageList
-        image.to_a.map{ |layer| layer.__send__ msg, *args, &block }
+        image.to_a.map{ |layer| layer.__send__(msg, *args, &block) }
+
       else # no such method...
-        super msg, *args, &block
+        super(msg, *args, &block)
+
       end
     end
 
@@ -94,7 +92,14 @@ module Thumbo
       image.first.mime_type
     end
 
-    def filename; owner.thumbnail_filename self; end
+    def storage
+      owner.class.thumbo_storage
+    end
+
+    def filename
+      owner.thumbo_filename self
+    end
+
     def fileext
       if @image
         case ext = image.first.format
@@ -109,26 +114,22 @@ module Thumbo
           when 'TIFF64'; 'tiff'
           else; ext.downcase
         end
-      elsif owner.respond_to?(:thumbnail_default_fileext)
-        owner.thumbnail_default_fileext
+
+      elsif owner.respond_to?(:thumbo_default_fileext)
+        owner.thumbo_default_fileext
+
       else
-        raise "please implement #{owner.class}\#thumbnail_default_fileext or ThumbnailProxy can't guess the file extension"
+        raise "please implement #{owner.class}\#thumbo_default_fileext or Thumbo can't guess the file extension"
+
       end
     end
 
-    def uri_prefix; owner.thumbnail_uri_prefix(self); end
-    def uri_file;   owner.thumbnail_uri_file(  self); end
-    def uri_full;  "#{uri_prefix}/#{uri_file}";       end
-
     protected
     attr_reader :owner
-    def fetch_blob
-      open(uri_full).read
-    end
 
     def create_common limit
       # can't use map since it have different meaning to collect here
-      self.image = owner.thumbnails[:original].image.collect{ |layer|
+      self.image = owner.thumbos[:original].image.collect{ |layer|
         # i hate column and row!! nerver remember which is width...
         new_dimension = Thumbo.calculate_dimension(limit, layer.columns, layer.rows)
 
@@ -145,7 +146,7 @@ module Thumbo
     end
 
     def create_square limit
-      self.image = owner.thumbnails[:original].image.collect{ |layer|
+      self.image = owner.thumbos[:original].image.collect{ |layer|
         layer.crop_resized(limit, limit).enhance
       }
     end
@@ -153,12 +154,14 @@ module Thumbo
     private
     # fetch image from storage to memory
     def read_image
-      Magick::ImageList.new.from_blob fetch_blob
+      Magick::ImageList.new.from_blob(storage.read(filename))
+
     rescue Magick::ImageMagickError
       nil # nil this time, so it'll refetch next time when you call image
     end
 
     def read_image_with_timeout time_limit = 5
+      require 'timeout'
       timeout(time_limit){ fetch }
     end
   end

@@ -3,7 +3,7 @@ require 'thumbo/proxy'
 
 module Thumbo
   def self.included model
-    model.__send__ :extend, Thumbo::ClassMethod
+    model.extend(Thumbo::ClassMethod)
   end
 
   def self.calculate_dimension limit, width, height
@@ -28,53 +28,62 @@ module Thumbo
   end
 
   module ClassMethod
-    def thumbnails
-      # could we avoid class variable?
-      @@thumbo_thumbnails ||= {}
+    def thumbo_storage
+      @thumbo_storage ||= begin
+        require 'thumbo/storages/filesystem'
+        Thumbo::Filesystem.new
+      end
     end
 
-    def thumbnails_square
-      # could we avoid class variable?
-      @@thumbo_thumbnails_square ||= {}
+    def thumbo_common
+      {}
+    end
+
+    def thumbo_square
+      {}
+    end
+
+    def thumbo_names
+      {}
     end
   end
 
-  def thumbnails
-    @thumbnails ||= init_thumbnails
+  def thumbos
+     @thumbos ||= init_thumbos
   end
 
   # same as thumbnail.filename, for writing
-  def thumbnail_filename thumbnail
-    "#{object_id}_#{thumbnail.label}.#{thumbnail.fileext}"
+  def thumbo_filename thumbo
+    "#{object_id}_#{thumbo.label}.#{thumbo.fileext}"
   end
 
   # same as thumbnail.fileuri, for fetching
-  def thumbnail_uri_file thumbnail
-    thumbnail_filename thumbnail
+  def thumbo_uri_file thumbo
+    thumbo_filename thumbo
   end
 
-  def thumbnail_mime_type
-    thumbnails[:original].mime_type
+  def thumbo_mime_type
+    thumbos[:original].mime_type
   end
 
-  def create_thumbnails after_scale = lambda{}
+  def create_thumbos after_scale = lambda{}
     # scale thumbnails
-    self.class.thumbnails.merge(self.class.thumbnails_square).each_key{ |label|
-      after_scale[ thumbnails[label].create ]
+    self.class.thumbo_common.merge(self.class.thumbo_square).each_key{ |label|
+      after_scale[ thumbos[label].create ]
     }
 
     # the last one don't scale at all, but call hook too
-    after_scale[ thumbnails[:original] ]
+    after_scale[ thumbos[:original] ]
 
     self
   end
 
   private
-  def init_thumbnails
-    self.class.const_get('ThumbnailsNameTable').inject({}){ |thumbnails, name|
+  def init_thumbos
+    self.class.thumbo_names.inject({}){ |result, name|
       label = name.first
-      thumbnails[label] = Thumbo::Proxy.new self, label
-      thumbnails
+      result[label] = Thumbo::Proxy.new(self, label)
+      result
     }
   end
 
