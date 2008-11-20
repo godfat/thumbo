@@ -6,6 +6,7 @@ module Thumbo
     attr_reader :label
     def initialize owner, label
       @owner, @label = owner, label
+      @image = nil # please stop warning me @image is not defined
     end
 
     # image processing
