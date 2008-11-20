@@ -7,20 +7,17 @@ class RubyLogo
   self.thumbo_storage.path = './tmp'
 
   def self.thumbo_common
-    { :large => 800, :medium => 500,
-      :small => 240, :thumb => 110   }
+    { :small => 240, :thumb => 110 }
   end
 
   def self.thumbo_square
-    { :square => 75,        :square_large => 200,
-      :square_medium => 48, :square_small => 24   }
+    { :square_medium => 48, :square_small => 24 }
   end
 
   def self.thumbo_labels
-    { :original => 'o', :raw => 'z',
-      :large => 'l', :medium => 'm', :small => 's',
-      :thumb => 't', :square => 'sq', :square_large => 'lsq',
-      :square_medium => 'msq', :square_small => 'ssq'         }
+    { :original      => 'o',   :raw          => 'z',
+      :small         => 's',   :thumb        => 't',
+      :square_medium => 'msq', :square_small => 'ssq' }
   end
 
   attr_accessor :mime_type, :log
@@ -59,9 +56,8 @@ class RubyLogo
 end
 
 class TestThumbo < MiniTest::Unit::TestCase
-  Dims00 = [[ 24, 24], [ 48, 48], [ 75, 75],
-            [109,110], [200,200], [239,240],
-            [499,500], [799,800], [995,996]]
+  Dims00 = [[ 24, 24], [ 48, 48],
+            [109,110], [239,240], [995,996]]
   Dims90 = Dims00.map(&:reverse)
 
   def test_first
