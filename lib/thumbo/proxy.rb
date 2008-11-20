@@ -100,6 +100,10 @@ module Thumbo
       owner.thumbo_filename self
     end
 
+    def uri
+      owner.thumbo_uri self
+    end
+
     def fileext
       if @image
         case ext = image.first.format
