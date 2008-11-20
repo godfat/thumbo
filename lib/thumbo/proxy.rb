@@ -84,15 +84,7 @@ module Thumbo
       end
     end
 
-    # attribute
-    def dimension img = image.first
-      [img.columns, img.rows]
-    end
-
-    def mime_type
-      image.first.mime_type
-    end
-
+    # storage related
     def storage
       owner.class.thumbo_storage
     end
@@ -101,12 +93,26 @@ module Thumbo
       storage.paths(filename)
     end
 
+    def delete
+      storage.delete(filename)
+    end
+
+    # owner delegate
     def filename
       owner.thumbo_filename self
     end
 
     def uri
       owner.thumbo_uri self
+    end
+
+    # attribute
+    def dimension img = image.first
+      [img.columns, img.rows]
+    end
+
+    def mime_type
+      image.first.mime_type
     end
 
     def fileext
