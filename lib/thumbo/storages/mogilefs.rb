@@ -27,7 +27,7 @@ module Thumbo
     end
 
     # raises MogileFS::Backend::UnknownKeyError
-    def file_paths filename
+    def paths filename
       client.get_paths(filename)
     end
 

@@ -12,7 +12,7 @@ class AbstractStorage
     raise NotImplementedError
   end
 
-  def file_paths filename
+  def paths filename
     raise NotImplementedError
   end
 end

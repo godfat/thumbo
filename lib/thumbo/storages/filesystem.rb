@@ -28,7 +28,7 @@ module Thumbo
     end
 
     # raises Errno::ENOENT
-    def file_paths filename
+    def paths filename
       target = calculate_path(filename)
       File.exist?(target) ? [target] : []
     end

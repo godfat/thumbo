@@ -97,6 +97,10 @@ module Thumbo
       owner.class.thumbo_storage
     end
 
+    def paths
+      storage.paths(filename)
+    end
+
     def filename
       owner.thumbo_filename self
     end
