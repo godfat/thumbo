@@ -1,5 +1,6 @@
 
 require 'thumbo/proxy'
+require 'thumbo/exceptions/file_not_found'
 
 module Thumbo
   def self.included model

@@ -11,9 +11,12 @@ module Thumbo
       @prefix_size = opts[:prefix_size] || 1
     end
 
-    # raises Errno::ENOENT
     def read filename
       File.read(calculate_path(filename))
+
+    rescue Errno::ENOENT
+      raise_file_not_found(filename)
+
     end
 
     def write filename, blob
@@ -24,13 +27,28 @@ module Thumbo
 
     def delete filename
       target = calculate_path(filename)
-      File.delete(target) if File.exist?(target)
+      if File.exist?(target)
+        File.delete(target)
+
+      else
+        raise_file_not_found(filename)
+
+      end
     end
 
-    # raises Errno::ENOENT
     def paths filename
+      if target = exist?(filename)
+        [target]
+
+      else
+        raise_file_not_found(filename)
+
+      end
+    end
+
+    def exist? filename
       target = calculate_path(filename)
-      File.exist?(target) ? [target] : []
+      File.exist?(target) ? target : false
     end
 
     private

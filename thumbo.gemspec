@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
   s.date = %q{2008-11-21}
   s.description = %q{}
   s.email = %q{godfat (XD) godfat.org}
-  s.extra_rdoc_files = ["CHANGES", "LICENSE", "NOTICE", "README", "TODO"]
-  s.files = ["CHANGES", "LICENSE", "NOTICE", "README", "Rakefile", "TODO", "lib/thumbo.rb", "lib/thumbo/proxy.rb", "lib/thumbo/storages/abstract.rb", "lib/thumbo/storages/filesystem.rb", "lib/thumbo/storages/mogilefs.rb", "lib/thumbo/version.rb", "tasks/ann.rake", "tasks/bones.rake", "tasks/gem.rake", "tasks/git.rake", "tasks/manifest.rake", "tasks/notes.rake", "tasks/post_load.rake", "tasks/rdoc.rake", "tasks/rubyforge.rake", "tasks/setup.rb", "tasks/spec.rake", "tasks/svn.rake", "tasks/test.rake", "test/helper.rb", "test/ruby.png", "test/test_storage.rb", "test/test_thumbo.rb"]
+  s.extra_rdoc_files = ["CHANGES", "LICENSE", "NOTICE", "README", "TODO", "thumbo.gemspec"]
+  s.files = ["CHANGES", "LICENSE", "NOTICE", "README", "Rakefile", "TODO", "lib/thumbo.rb", "lib/thumbo/exceptions/file_not_found.rb", "lib/thumbo/proxy.rb", "lib/thumbo/storages/abstract.rb", "lib/thumbo/storages/filesystem.rb", "lib/thumbo/storages/mogilefs.rb", "lib/thumbo/version.rb", "tasks/ann.rake", "tasks/bones.rake", "tasks/gem.rake", "tasks/git.rake", "tasks/manifest.rake", "tasks/notes.rake", "tasks/post_load.rake", "tasks/rdoc.rake", "tasks/rubyforge.rake", "tasks/setup.rb", "tasks/spec.rake", "tasks/svn.rake", "tasks/test.rake", "test/helper.rb", "test/ruby.png", "test/test_storage.rb", "test/test_thumbo.rb", "thumbo.gemspec"]
   s.has_rdoc = true
   s.homepage = %q{http://github.com/godfat/thumbo}
   s.rdoc_options = ["--diagram", "--charset=utf-8", "--inline-source", "--line-numbers", "--promiscuous", "--main", "README"]

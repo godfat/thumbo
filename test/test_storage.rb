@@ -24,6 +24,10 @@ class Photo
     "http://img.godfat.org/photos/#{first}_zzz_#{last}"
   end
 
+  def thumbo_default_fileext
+    'png'
+  end
+
 end
 
 class StorageTest < MiniTest::Unit::TestCase
@@ -34,5 +38,11 @@ class StorageTest < MiniTest::Unit::TestCase
 
     assert_equal( "http://img.godfat.org/photos/#{p.object_id}_zzz_original.png",
                   p.thumbos[:original].uri )
+  end
+
+  def test_raises
+    assert_raises(Thumbo::FileNotFound) do
+      Photo.new.thumbos[:original].delete
+    end
   end
 end

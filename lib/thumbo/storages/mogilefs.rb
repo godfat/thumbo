@@ -1,6 +1,10 @@
 
 require 'thumbo/storages/abstract'
-require 'mogilefs'
+begin
+  require 'mogilefs'
+rescue LoadError
+  raise LoadError.new("Please install gem mogilefs-client")
+end
 
 module Thumbo
   class Mogilefs < AbstractStorage
@@ -13,9 +17,12 @@ module Thumbo
       @timeout_time = opts[:timeout_time] || 2
     end
 
-    # raises MogileFS::Backend::UnknownKeyError
     def read filename
       client.get_file_data(filename)
+
+    rescue MogileFS::Backend::UnknownKeyError
+      raise_file_not_found(filename)
+
     end
 
     def write filename, blob
@@ -24,11 +31,19 @@ module Thumbo
 
     def delete filename
       client.delete(filename)
+
+    rescue MogileFS::Backend::UnknownKeyError
+      raise_file_not_found(filename)
+
     end
 
     # raises MogileFS::Backend::UnknownKeyError
     def paths filename
       client.get_paths(filename)
+
+    rescue MogileFS::Backend::UnknownKeyError
+      raise_file_not_found(filename)
+
     end
 
     def client

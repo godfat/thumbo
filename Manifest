@@ -5,6 +5,7 @@ README
 Rakefile
 TODO
 lib/thumbo.rb
+lib/thumbo/exceptions/file_not_found.rb
 lib/thumbo/proxy.rb
 lib/thumbo/storages/abstract.rb
 lib/thumbo/storages/filesystem.rb
@@ -14,3 +15,4 @@ test/helper.rb
 test/ruby.png
 test/test_storage.rb
 test/test_thumbo.rb
+thumbo.gemspec
