@@ -42,7 +42,7 @@ class RubyLogo
   # same as thumbnail.filename
   def thumbo_filename thumbo
     "#{self.class}_#{checksum}_" +
-    "#{self.class.thumbo_labels[thumbo.label]}.#{thumbo.fileext}"
+    "#{self.class.thumbo_labels[thumbo.title]}.#{thumbo.fileext}"
   end
 
   def thumbo_default_fileext

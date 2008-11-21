@@ -3,9 +3,9 @@ require 'RMagick'
 
 module Thumbo
   class Proxy
-    attr_reader :label
-    def initialize owner, label
-      @owner, @label = owner, label
+    attr_reader :title
+    def initialize owner, title
+      @owner, @title = owner, title
       @image = nil # please stop warning me @image is not defined
     end
 
@@ -48,15 +48,15 @@ module Thumbo
 
     # create thumbnails in the image list (Magick::ImageList)
     def create
-      return if label == :original
+      return if title == :original
       release
-      limit = owner.class.thumbo_common[label]
+      limit = owner.class.thumbo_common[title]
 
       if limit
         create_common(limit)
 
       else
-        limit = owner.class.thumbo_square[label]
+        limit = owner.class.thumbo_square[title]
         create_square(limit)
 
       end

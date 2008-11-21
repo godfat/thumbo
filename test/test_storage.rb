@@ -16,7 +16,7 @@ class Photo
   end
 
   def thumbo_filename thumbo
-    "#{self.object_id}_#{thumbo.label}.#{thumbo.fileext}"
+    "#{self.object_id}_#{thumbo.title}.#{thumbo.fileext}"
   end
 
   def thumbo_uri thumbo

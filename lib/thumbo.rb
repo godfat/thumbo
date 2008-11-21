@@ -55,12 +55,7 @@ module Thumbo
 
   # same as thumbnail.filename, for writing
   def thumbo_filename thumbo
-    "#{object_id}_#{thumbo.label}.#{thumbo.fileext}"
-  end
-
-  # same as thumbnail.fileuri, for fetching
-  def thumbo_uri_file thumbo
-    thumbo_filename thumbo
+    "#{object_id}_#{thumbo.title}.#{thumbo.fileext}"
   end
 
   def thumbo_mime_type
@@ -69,8 +64,8 @@ module Thumbo
 
   def create_thumbos after_scale = lambda{}
     # scale thumbnails
-    self.class.thumbo_common.merge(self.class.thumbo_square).each_key{ |label|
-      after_scale[ thumbos[label].create ]
+    self.class.thumbo_common.merge(self.class.thumbo_square).each_key{ |title|
+      after_scale[ thumbos[title].create ]
     }
 
     # the last one don't scale at all, but call hook too
@@ -88,9 +83,9 @@ module Thumbo
           self.class.thumbo_labels
         )
       )
-    ).inject({}){ |result, label_value|
-      label = label_value.first
-      result[label] = Thumbo::Proxy.new(self, label)
+    ).inject({}){ |result, title_value|
+      title = title_value.first
+      result[title] = Thumbo::Proxy.new(self, title)
       result
     }
   end
