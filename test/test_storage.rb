@@ -1,5 +1,6 @@
 
 require 'test/helper'
+require 'digest/md5'
 
 class Photo
   include Thumbo
@@ -30,6 +31,22 @@ class Photo
 
 end
 
+class ThumboDefault
+  include Thumbo
+
+  def self.thumbo_common
+    {:common => 200}
+  end
+
+  def self.thumbo_square
+    {:square => 50}
+  end
+
+  def thumbo_default_fileext
+    'png'
+  end
+end
+
 class StorageTest < MiniTest::Unit::TestCase
   def test_uri
     p = Photo.new
@@ -38,6 +55,19 @@ class StorageTest < MiniTest::Unit::TestCase
 
     assert_equal( "http://img.godfat.org/photos/#{p.object_id}_zzz_original.png",
                   p.thumbos[:original].uri )
+  end
+
+  def test_default
+    p = ThumboDefault.new
+    t = p.thumbos[:original]
+    t.from_blob(File.open('test/ruby.png').read)
+    t.write
+
+    assert_equal( "public/images/thumbo/#{Digest::MD5.hexdigest(t.filename)[0,1]}" +
+                  "/#{p.object_id}_original.png",
+                  p.thumbos[:original].uri )
+  ensure
+    File.delete(t.uri)
   end
 
   def test_raises

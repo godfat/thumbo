@@ -53,9 +53,13 @@ module Thumbo
      @thumbos ||= init_thumbos
   end
 
-  # same as thumbnail.filename, for writing
   def thumbo_filename thumbo
     "#{object_id}_#{thumbo.title}.#{thumbo.fileext}"
+  end
+
+  def thumbo_uri thumbo
+    paths = thumbo.paths
+    paths[rand(paths.size)]
   end
 
   def thumbo_mime_type
