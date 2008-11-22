@@ -7,7 +7,7 @@ module Thumbo
   class Filesystem < AbstractStorage
     attr_accessor :path, :prefix_size
     def initialize opts = {}
-      @path = opts[:path] || 'public/images'
+      @path = opts[:path] || 'public/images/thumbo'
       @prefix_size = opts[:prefix_size] || 1
     end
 
