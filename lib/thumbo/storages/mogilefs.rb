@@ -37,13 +37,20 @@ module Thumbo
 
     end
 
-    # raises MogileFS::Backend::UnknownKeyError
     def paths filename
       client.get_paths(filename)
 
     rescue MogileFS::Backend::UnknownKeyError
       raise_file_not_found(filename)
 
+    end
+
+    def exist? filename
+      target = paths(filename)
+      target[ rand(target.size) ]
+
+    rescue Thumbo::FileNotFound
+      false
     end
 
     def client
