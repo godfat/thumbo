@@ -51,11 +51,13 @@ module Thumbo
       File.exist?(target) ? target : false
     end
 
+    def prefix filename
+      Digest::MD5.hexdigest(filename)[0, prefix_size]
+    end
+
     private
     def calculate_path filename
-      File.join( path,
-                 Digest::MD5.hexdigest(filename)[0, prefix_size],
-                 filename )
+      File.join( path, prefix(filename), filename )
     end
   end
 end
