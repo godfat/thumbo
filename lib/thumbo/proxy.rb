@@ -14,6 +14,11 @@ module Thumbo
       @image || (self.image = read_image)
     end
 
+    # check if image exists in memory
+    def image?
+      @image
+    end
+
     def image_with_timeout time_limit = 5
       @image || (self.image = read_image_with_timeout(time_limit))
     end
