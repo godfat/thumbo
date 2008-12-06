@@ -66,7 +66,9 @@ module Thumbo
     thumbos[:original].mime_type
   end
 
-  def create_thumbos after_scale = lambda{}
+  def create_thumbos after_scale = lambda{}, &block
+    after_scale = block if block_given?
+
     # scale thumbnails
     self.class.thumbo_common.merge(self.class.thumbo_square).each_key{ |title|
       after_scale[ thumbos[title].create ]
