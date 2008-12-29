@@ -69,8 +69,8 @@ module Thumbo
       self
     end
 
-    def write
-      storage.write(self.filename, to_blob)
+    def write filename = nil
+      storage.write(filename || self.filename, to_blob)
     end
 
     # delegate all
