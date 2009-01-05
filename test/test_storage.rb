@@ -47,7 +47,7 @@ class ThumboDefault
   end
 end
 
-class StorageTest < MiniTest::Unit::TestCase
+class StorageTest < TestCase
   def test_uri
     p = Photo.new
     t = p.thumbos[:original]

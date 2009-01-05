@@ -55,7 +55,7 @@ class RubyLogo
   def checksum; 'abcdefg'; end
 end
 
-class TestThumbo < MiniTest::Unit::TestCase
+class TestThumbo < TestCase
   Dims00 = [[ 24, 24], [ 48, 48],
             [109,110], [239,240], [995,996]]
   Dims90 = Dims00.map(&:reverse)

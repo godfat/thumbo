@@ -12,7 +12,7 @@ PROJ.name = 'thumbo'
 # PROJ.ruby_opts.delete '-w'
 
 PROJ.gem.dependencies << ['rmagick', '>=2.6.0']
-PROJ.gem.development_dependencies << ['minitest', '>=1.3.0']
+# PROJ.gem.development_dependencies << ['minitest', '>=1.3.0']
 # PROJ.gem.executables = ["bin/#{PROJ.name}"]
 
 task :default do
