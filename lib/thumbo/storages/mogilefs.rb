@@ -1,9 +1,17 @@
 
 require 'thumbo/storages/abstract'
+
 begin
   require 'mogilefs'
 rescue LoadError
   raise LoadError.new("Please install gem mogilefs-client")
+end
+
+begin
+  require 'curb'
+rescue LoadError
+  puts('No curb found, falls back to open-uri')
+  require 'open-uri'
 end
 
 module Thumbo
@@ -18,10 +26,23 @@ module Thumbo
     end
 
     def read filename
-      client.get_file_data(filename)
-
-    rescue MogileFS::Backend::UnknownKeyError
-      raise_file_not_found(filename)
+      # Mogilefs::Mogilefs#get_file_data is broken.
+      # client.get_file_data(filename)
+      timeout(timeout_time){
+        paths(filename).each{ |path|
+          begin
+            if Object.const_defined?(:Curl)
+              return Curl::Easy.perform(path).body_str
+            else
+              return open(path).read
+            end
+          rescue Curl::Err::CurlError, SystemCallError
+            next
+          end
+        }
+      }
+    # rescue MogileFS::Backend::UnknownKeyError
+    #   raise_file_not_found(filename)
 
     end
 
