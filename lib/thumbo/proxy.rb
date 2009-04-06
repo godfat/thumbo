@@ -42,8 +42,8 @@ module Thumbo
       self
     end
 
-    def to_blob
-      self.image.to_blob
+    def to_blob &block
+      self.image.to_blob(&block)
     end
 
     # convert format to website displable image format
@@ -69,8 +69,8 @@ module Thumbo
       self
     end
 
-    def write filename = nil
-      storage.write(filename || self.filename, to_blob)
+    def write filename = nil, &block
+      storage.write(filename || self.filename, to_blob(&block))
     end
 
     # delegate all
