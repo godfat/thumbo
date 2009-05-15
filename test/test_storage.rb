@@ -77,9 +77,10 @@ class StorageTest < TestCase
   end
 
   def test_write_file
+    target = "public/images/thumbo/#{Digest::MD5.hexdigest('LICENSE')[0,1]}/LICENSE"
     ThumboDefault.thumbo_storage.write_file('LICENSE', File.open('LICENSE'))
-    assert_equal(
-      File.read('LICENSE'),
-      File.read("public/images/thumbo/#{Digest::MD5.hexdigest('LICENSE')[0,1]}/LICENSE"))
+    assert_equal(File.read('LICENSE'), File.read(target))
+  ensure
+    File.delete(target)
   end
 end
