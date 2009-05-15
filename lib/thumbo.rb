@@ -3,6 +3,23 @@ require 'thumbo/proxy'
 require 'thumbo/exceptions/file_not_found'
 
 module Thumbo
+  begin
+    if RUBY_VERSION < '1.9' &&
+       (!Object.const_defined?('RUBY_ENGINE') || RUBY_ENGINE == 'ruby')
+
+      require 'system_timer'
+      Timer = ::SystemTimer
+
+    else
+      require 'timeout'
+      Timer = ::Timeout
+    end
+
+  rescue LoadError
+    require 'timeout'
+    Timer = ::Timeout
+  end
+
   def self.included model
     model.extend(Thumbo::ClassMethod)
   end

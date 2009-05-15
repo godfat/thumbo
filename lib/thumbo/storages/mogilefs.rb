@@ -25,7 +25,7 @@ module Thumbo
     end
 
     def read filename
-      timeout(timeout_time){
+      Timer.timeout(timeout_time){
         paths(filename).each{ |path|
           if Object.const_defined?(:Curl)
             begin
