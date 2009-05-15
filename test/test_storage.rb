@@ -75,4 +75,11 @@ class StorageTest < TestCase
       Photo.new.thumbos[:original].delete
     end
   end
+
+  def test_write_file
+    ThumboDefault.thumbo_storage.write_file('LICENSE', File.open('LICENSE'))
+    assert_equal(
+      File.read('LICENSE'),
+      File.read("public/images/thumbo/#{Digest::MD5.hexdigest('LICENSE')[0,1]}/LICENSE"))
+  end
 end

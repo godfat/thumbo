@@ -20,9 +20,13 @@ module Thumbo
     end
 
     def write filename, blob
-      target = calculate_path(filename)
-      FileUtils.mkdir_p(target.split('/')[0..-2].join('/'))
+      target = ensure_path(filename)
       (File.open(target, 'w') << blob).close
+    end
+
+    def write_file filename, file
+      target = ensure_path(filename)
+      FileUtils.cp(file.path, target)
     end
 
     def delete filename
@@ -58,6 +62,12 @@ module Thumbo
     private
     def calculate_path filename
       File.join( path, prefix(filename), filename )
+    end
+
+    def ensure_path filename
+      target = calculate_path(filename)
+      FileUtils.mkdir_p(target.split('/')[0..-2].join('/'))
+      target
     end
   end
 end

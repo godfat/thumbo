@@ -8,6 +8,10 @@ class AbstractStorage
     raise NotImplementedError
   end
 
+  def write_file filename, file
+    raise NotImplementedError
+  end
+
   def delete filename
     raise NotImplementedError
   end

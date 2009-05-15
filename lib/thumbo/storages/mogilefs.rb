@@ -48,6 +48,10 @@ module Thumbo
       client.store_content(filename, klass, blob)
     end
 
+    def write_file filename, file
+      client.store_file(filename, klass, file)
+    end
+
     def delete filename
       client.delete(filename)
 
