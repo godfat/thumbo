@@ -10,8 +10,7 @@ end
 begin
   require 'curb'
 rescue LoadError
-  puts('No curb found, falls back to open-uri')
-  require 'open-uri'
+  puts('No curb found, falls back to MogileFS::MogileFS#get_file_data')
 end
 
 module Thumbo
@@ -26,24 +25,23 @@ module Thumbo
     end
 
     def read filename
-      # Mogilefs::Mogilefs#get_file_data is broken.
-      # client.get_file_data(filename)
       timeout(timeout_time){
         paths(filename).each{ |path|
-          begin
-            if Object.const_defined?(:Curl)
+          if Object.const_defined?(:Curl)
+            begin
               return Curl::Easy.perform(path).body_str
-            else
-              return open(path).read
+            rescue Curl::Err::CurlError
+              next
             end
-          rescue Curl::Err::CurlError, SystemCallError
-            next
+          else
+            begin
+              return client.get_file_data(filename)
+            rescue SystemCallError
+              next
+            end
           end
         }
       }
-    # rescue MogileFS::Backend::UnknownKeyError
-    #   raise_file_not_found(filename)
-
     end
 
     def write filename, blob
