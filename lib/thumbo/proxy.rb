@@ -179,7 +179,7 @@ module Thumbo
     end
 
     def read_image_with_timeout time_limit = 5
-      Timer.timeout(time_limit){ fetch }
+      Timeout.timeout(time_limit){ fetch }
     end
   end
 end

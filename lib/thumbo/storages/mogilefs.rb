@@ -7,12 +7,6 @@ rescue LoadError
   raise LoadError.new("Please install gem mogilefs-client")
 end
 
-begin
-  require 'curb'
-rescue LoadError
-  puts('No curb found, falls back to MogileFS::MogileFS#get_file_data')
-end
-
 module Thumbo
   class Mogilefs < AbstractStorage
     attr_accessor :klass, :domain, :hosts, :timeout_time
@@ -25,20 +19,12 @@ module Thumbo
     end
 
     def read filename
-      Timer.timeout(timeout_time){
+      Timeout.timeout(timeout_time){
         paths(filename).each{ |path|
-          if Object.const_defined?(:Curl)
-            begin
-              return Curl::Easy.perform(path).body_str
-            rescue Curl::Err::CurlError
-              next
-            end
-          else
-            begin
-              return client.get_file_data(filename)
-            rescue SystemCallError
-              next
-            end
+          begin
+            return client.get_file_data(filename)
+          rescue SystemCallError
+            next
           end
         }
       }
