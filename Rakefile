@@ -22,7 +22,7 @@ Bones{
   email   'godfat (XD) godfat.org'
 
   history_file   'CHANGES'
-   readme_file   'README'
+   readme_file   'README.rdoc'
    ignore_file   '.gitignore'
   rdoc.include   ['\w+']
 }
